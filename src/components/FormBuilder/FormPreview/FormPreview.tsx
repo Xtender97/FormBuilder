@@ -1,7 +1,15 @@
+import { DynamicForm } from '../../DynamicForm';
+import { Field } from '../CreateFieldForm/CreateFieldForm';
 import './FormPreview.scss';
 
-// export interface IFormPreviewProps {}
+export interface IFormPreviewProps {
+  formFields: Field[];
+}
 
-export function FormPreview(/*props: IFormPreviewProps*/) {
-  return <div></div>;
+export function FormPreview({ formFields }: IFormPreviewProps) {
+  return (
+    <div>
+      <DynamicForm formFields={formFields} />
+    </div>
+  );
 }

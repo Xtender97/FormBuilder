@@ -10,6 +10,8 @@ body,
 * {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 #root {
@@ -29,15 +31,14 @@ body,
   display: flex;
 }
 
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .vertical-flex {
   display: flex;
   flex-direction: column;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .flex-grow {

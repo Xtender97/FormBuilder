@@ -1,52 +1,42 @@
 import { useForm } from 'react-hook-form';
 import { SetState } from '../../../types/global.types';
-import { FormState } from '../FormBuilder';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../../Button/Button';
 import { OptionsInput } from './OptionsInput';
 
 export interface ICreateFieldFormProps {
-  formState: FormState[];
-  setFormState: SetState<FormState[]>;
+  setFormFields: SetState<Field[]>;
 }
 
 const fieldTypes = ['text', 'number', 'select', 'radio', 'checkbox'] as const;
 
-type FieldTypes = (typeof fieldTypes)[number];
-
-const schema = z.object({
-  name: z.string().min(1),
-  type: z.enum(fieldTypes),
-  required: z.boolean(),
-  options: z
-    .array(z.object({ label: z.string(), value: z.string() }))
-    .optional(),
-});
+const schema = z
+  .object({
+    id: z.string().default(''),
+    name: z.string().min(1),
+    type: z.enum(fieldTypes),
+    required: z.boolean(),
+    options: z
+      .array(z.object({ label: z.string(), value: z.string() }))
+      .optional(),
+  })
+  .transform((data) => {
+    return {
+      ...data,
+      id: Math.random().toString(36).substring(7),
+    };
+  });
 
 export type Field = z.infer<typeof schema>;
 
-export function CreateFieldForm({
-  formState,
-  setFormState,
-}: ICreateFieldFormProps) {
-  console.log('fomr state', formState);
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<Field>({
+export function CreateFieldForm({ setFormFields }: ICreateFieldFormProps) {
+  const { register, handleSubmit, watch, control, reset } = useForm<Field>({
     resolver: zodResolver(schema),
     defaultValues: {
       options: [{ label: '', value: '' }],
     },
   });
-
-  console.log(errors);
 
   const type = watch('type');
 
@@ -57,10 +47,10 @@ export function CreateFieldForm({
     <div>
       <form
         onSubmit={handleSubmit((data) => {
-          setFormState((prev) => [...prev, data]);
+          setFormFields((prev) => [...prev, data]);
           reset();
         })}
-        className="vertical-flex gap-10 p-5"
+        className="vertical-flex gap-10"
       >
         <label htmlFor="name" className="vertical-flex gap-5 label">
           Field Name
@@ -97,7 +87,7 @@ export function CreateFieldForm({
           Required
           <input id="required" type="checkbox" {...register('required')} />
         </label>
-        <Button className="align-start" label="Add Field" />
+        <Button className="align-start" label="Add Field" type="submit" />
       </form>
     </div>
   );
