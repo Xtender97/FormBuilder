@@ -91,6 +91,7 @@ body,
   font-size: 12px;
   height: 28px;
   min-width: 100px;
+  // max-width: 350px;
 
   &:focus {
     border-color: #7c7b7b;
@@ -100,4 +101,5 @@ body,
 .label {
   font-size: 14px;
   color: #2c2c2c;
+  font-weight: 500;
 }

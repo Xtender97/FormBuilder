@@ -11,6 +11,8 @@ export interface ICreateFieldFormProps {
 
 const fieldTypes = ['text', 'number', 'select', 'radio', 'checkbox'] as const;
 
+export type FieldType = (typeof fieldTypes)[number];
+
 const schema = z
   .object({
     id: z.string().default(''),
@@ -34,7 +36,7 @@ export function CreateFieldForm({ setFormFields }: ICreateFieldFormProps) {
   const { register, handleSubmit, watch, control, reset } = useForm<Field>({
     resolver: zodResolver(schema),
     defaultValues: {
-      options: [{ label: '', value: '' }],
+      type: 'text',
     },
   });
 

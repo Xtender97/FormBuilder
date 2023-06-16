@@ -9,7 +9,7 @@ export function FormBuilder() {
 
   return (
     <div className="form-builder flex gap-10 h-100">
-      <div className="left-bar card p-20">
+      <div className="left-bar card p-20 vertical-flex gap-20">
         <CreateFieldForm setFormFields={setFormFields} />
         <FormFields formFields={formFields} setFormFields={setFormFields} />
       </div>
