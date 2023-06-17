@@ -4,6 +4,7 @@ import { FormFields } from './FormFields/FormFields';
 import './FormBuilder.scss';
 import { FormPreview } from './FormPreview/FormPreview';
 import { Field } from '../../types/form.types';
+import { JsonInput } from '../JsonInput/JsonInput';
 
 export function FormBuilder() {
   const [formFields, setFormFields] = useState<Field[]>([]);
@@ -18,7 +19,9 @@ export function FormBuilder() {
         <FormPreview formFields={formFields} />
       </div>
 
-      <div className="right-bar card p-20 scroll-bars">
+      <div className="right-bar card p-20 scroll-bars vertical-flex gap-10">
+        <h3 className="mb-10">Form JSON</h3>
+        <JsonInput onLoaded={setFormFields} />
         <pre className="code">{JSON.stringify(formFields, null, 4)}</pre>
       </div>
     </div>
