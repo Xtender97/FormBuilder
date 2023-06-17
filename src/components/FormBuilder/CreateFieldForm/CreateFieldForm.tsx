@@ -1,39 +1,23 @@
 import { useForm } from 'react-hook-form';
 import { SetState } from '../../../types/global.types';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../../Button/Button';
 import { OptionsInput } from './OptionsInput';
+import { Field, schema } from '../../../types/form.types';
 
 export interface ICreateFieldFormProps {
   setFormFields: SetState<Field[]>;
 }
 
-const fieldTypes = ['text', 'number', 'select', 'radio', 'checkbox'] as const;
-
-export type FieldType = (typeof fieldTypes)[number];
-
-const schema = z
-  .object({
-    id: z.string().default(''),
-    name: z.string().min(1),
-    type: z.enum(fieldTypes),
-    required: z.boolean(),
-    options: z
-      .array(z.object({ label: z.string(), value: z.string() }))
-      .optional(),
-  })
-  .transform((data) => {
-    return {
-      ...data,
-      id: Math.random().toString(36).substring(7),
-    };
-  });
-
-export type Field = z.infer<typeof schema>;
-
 export function CreateFieldForm({ setFormFields }: ICreateFieldFormProps) {
-  const { register, handleSubmit, watch, control, reset } = useForm<Field>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<Field>({
     resolver: zodResolver(schema),
     defaultValues: {
       type: 'text',
@@ -63,6 +47,9 @@ export function CreateFieldForm({ setFormFields }: ICreateFieldFormProps) {
             placeholder="Field Name"
           />
         </label>
+        {errors['name'] && (
+          <span className="error">{errors['name'].message}</span>
+        )}
         <label htmlFor="name" className="vertical-flex gap-5 label">
           Field Type
           <select {...register('type')} className="input">
@@ -73,16 +60,23 @@ export function CreateFieldForm({ setFormFields }: ICreateFieldFormProps) {
             <option value="checkbox">Checkbox</option>
           </select>
         </label>
-
+        {errors['type'] && (
+          <span className="error">{errors['type'].message}</span>
+        )}
         {hasOptions && (
-          <label htmlFor="options" className="vertical-flex gap-5 label">
-            Options
-            <OptionsInput
-              control={control}
-              name="options"
-              register={register}
-            />
-          </label>
+          <>
+            <label htmlFor="options" className="vertical-flex gap-5 label">
+              Options
+              <OptionsInput
+                control={control}
+                name="options"
+                register={register}
+              />
+            </label>
+            {errors['options'] && (
+              <span className="error">{errors['options'].message}</span>
+            )}
+          </>
         )}
 
         <label htmlFor="required" className="flex gap-10 align-center label">

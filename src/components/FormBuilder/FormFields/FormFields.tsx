@@ -1,6 +1,6 @@
+import { Field } from '../../../types/form.types';
 import { SetState } from '../../../types/global.types';
 import { Button } from '../../Button/Button';
-import { Field } from '../CreateFieldForm/CreateFieldForm';
 
 export interface IFormFieldsProps {
   formFields: Field[];
@@ -13,7 +13,7 @@ export function FormFields({ formFields, setFormFields }: IFormFieldsProps) {
   };
 
   return (
-    <div className="vertical-flex gap-20 form-fields">
+    <div className="vertical-flex gap-20 form-fields scroll-bars p-5">
       <h3>Form</h3>
 
       {formFields.map((field, index) => {

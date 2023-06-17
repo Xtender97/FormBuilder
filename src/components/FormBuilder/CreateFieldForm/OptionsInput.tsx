@@ -5,7 +5,7 @@ import {
   useFieldArray,
 } from 'react-hook-form';
 import { Button } from '../../Button/Button';
-import { Field } from './CreateFieldForm';
+import { Field } from '../../../types/form.types';
 
 export interface IOptionsInputProps {
   control: Control<Field>;

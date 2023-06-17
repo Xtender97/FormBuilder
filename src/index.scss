@@ -91,7 +91,6 @@ body,
   font-size: 12px;
   height: 28px;
   min-width: 100px;
-  // max-width: 350px;
 
   &:focus {
     border-color: #7c7b7b;
@@ -102,4 +101,40 @@ body,
   font-size: 14px;
   color: #2c2c2c;
   font-weight: 500;
+}
+
+.code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: #2c2c2c;
+}
+
+.scroll-bars {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background: #555;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 14px;
 }

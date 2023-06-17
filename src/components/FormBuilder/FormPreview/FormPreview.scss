@@ -1,0 +1,15 @@
+.form-preview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .form {
+    flex-grow: 1;
+  }
+
+  .result {
+    border-top: 1px solid #ccc;
+    height: 150px;
+    margin-top: auto;
+  }
+}

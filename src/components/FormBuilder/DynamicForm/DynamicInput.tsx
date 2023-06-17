@@ -1,21 +1,18 @@
-import { ChangeEvent } from '../types/global.types';
-import {
-  Field,
-  FieldType,
-} from './FormBuilder/CreateFieldForm/CreateFieldForm';
-
+import { ChangeEvent } from '../../../types/global.types';
+import { Field, FieldType } from '../../../types/form.types';
+import './DynamicInput.scss';
 export interface IDynamicInputProps {
   register: (
     name: string,
     type: FieldType
   ) => {
-    // value: any;
     onChange: (e: ChangeEvent) => void;
   };
   field: Field;
+  error: string | undefined;
 }
 
-export function DynamicInput({ register, field }: IDynamicInputProps) {
+export function DynamicInput({ register, field, error }: IDynamicInputProps) {
   const renderInput = (type: typeof field.type) => {
     switch (type) {
       case 'text':
@@ -40,10 +37,20 @@ export function DynamicInput({ register, field }: IDynamicInputProps) {
           <select
             id={field.name}
             className="input"
+            defaultValue={''}
             {...register(field.name, field.type)}
           >
+            <option value="" disabled>
+              Select your option
+            </option>
             {field.options?.map((option) => {
-              return <option value={option.value}>{option.label}</option>;
+              const id = field.id + option.value;
+
+              return (
+                <option value={option.value} key={id}>
+                  {option.label}
+                </option>
+              );
             })}
           </select>
         );
@@ -102,11 +109,12 @@ export function DynamicInput({ register, field }: IDynamicInputProps) {
   };
 
   return (
-    <div className="vertical-flex gap-10">
+    <div className="dynamic-input vertical-flex gap-10">
       <label className="label" htmlFor={field.name}>
-        {field.name}
+        {field.name} {field.required && '*'}
       </label>
       {renderInput(field.type)}
+      {error && <span className="error">{error}</span>}
     </div>
   );
 }
